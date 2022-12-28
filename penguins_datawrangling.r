@@ -1,19 +1,19 @@
-
-install.packages("palmerpenguins")
+# install.packages("palmerpenguins")
 
 
 library(palmerpenguins)
 library(tidyverse)
 library(ggplot2)
 library(Hmisc)
+library(class)
 
 
-data <- penguins
-  
+data <- penguins %>% 
+  # dropping observations where predictive features are missing
+  drop_na(bill_length_mm, bill_depth_mm, flipper_length_mm)  
 
 
 # Exploratory data analysis
-
 # Distribution of observations by species
 data %>% 
   ggplot(aes(y = species, fill = species))+
@@ -103,14 +103,14 @@ data %>%
 
 # Linear Regression Model
 
-# initial model
-model_bodymass_full <- lm(data = data,
-   body_mass_g ~ species*sex + island + bill_length_mm + bill_depth_mm)
+# stepwise selection of features using AIC criterion for bodymass model
+step(lm(body_mass_g ~ species*sex + island + bill_length_mm + bill_depth_mm,
+        data = data))  
 
-step(model_bodymass) # omitting island due to AIC criterion
+# omitting island due to AIC criterion
+model_bodymass <- lm(body_mass_g ~ species*sex + island + bill_length_mm + bill_depth_mm,
+                     data = data)
 
-model_bodymass <- lm(data = data,
-                     body_mass_g ~ species*sex + island + bill_length_mm + bill_depth_mm)
 
 
 
