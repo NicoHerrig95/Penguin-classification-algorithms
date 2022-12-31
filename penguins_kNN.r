@@ -104,7 +104,6 @@ data %>%
 
 # Classification of sex with k-nearest neighbour classification algorithm
 
-# 1:
 # Finding optimal values for kNN algorithm
 # Testing accuracy with train set and test set
 # separating training set and testig set with 80/20 separation
@@ -225,4 +224,9 @@ predictions_sex_latent <- knn(train = data_sex_available,
 
 # implementing predicted values into initial data set
 data$sex[latent_obs_sex] <- predictions_sex_latent
+
+
+
+
+
 
