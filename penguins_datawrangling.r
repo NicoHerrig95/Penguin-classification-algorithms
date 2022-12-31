@@ -1,111 +1,23 @@
-# install.packages("palmerpenguins")
+# First script to run - includes kNN-algorithm to classify sex of penguins
 
+# install.packages("palmerpenguins")
 
 library(palmerpenguins)
 library(tidyverse)
 library(ggplot2)
-library(Hmisc)
 library(class)
 
+
+
+source("functions.R")
 
 data <- penguins %>% 
   # dropping observations where predictive features are missing
   drop_na(bill_length_mm, bill_depth_mm, flipper_length_mm)  
 
 
-# Basic Exploratory data analysis (Overview about data)
-# Distribution of observations by species
-data %>% 
-  ggplot(aes(y = species, fill = species))+
-  geom_bar()+
-  geom_text(aes(label = ..count..),
-            stat = "count",
-            hjust=1.5,
-            colour = "black",
-            size = 5)+
-  theme(legend.position = "none")
-
-
-data %>% 
-  ggplot(aes(x = bill_length_mm, fill = species))+
-  geom_histogram(alpha = 0.5)+
-  theme(legend.position = "top",
-        plot.title = element_text(hjust = 0.5))+
-  ggtitle("Bill Length")
-
-
-data %>% 
-  ggplot(aes(x = bill_depth_mm, fill = species))+
-  geom_histogram(alpha = 0.5)+
-  theme(legend.position = "top",
-        plot.title = element_text(hjust = 0.5))+
-  ggtitle("Bill Depth")
-
-
-data %>% 
-  ggplot(aes(x = body_mass_g, fill = species))+
-  geom_histogram(alpha = 0.5)+
-  theme(legend.position = "top",
-        plot.title = element_text(hjust = 0.5))+
-  ggtitle("Body Mass")
-
-
-data %>% 
-  filter(!is.na(sex)) %>% 
-  filter(species == "Adelie") %>% 
-  group_by(sex) %>% 
-  summarise(avg_bill_length = mean(bill_length_mm, na.rm = TRUE),
-            avg_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
-            avg_flipper_lengt = mean(flipper_length_mm, na.rm = TRUE),
-            avg_weight_g = mean(body_mass_g, na.rm = TRUE))
-
-
-data %>% 
-  filter(!is.na(sex)) %>% 
-  filter(species == "Gentoo") %>% 
-  group_by(sex) %>% 
-  summarise(avg_bill_length = mean(bill_length_mm, na.rm = TRUE),
-            avg_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
-            avg_flipper_lengt = mean(flipper_length_mm, na.rm = TRUE),
-            avg_weight_g = mean(body_mass_g, na.rm = TRUE))
-
-
-data %>% 
-  filter(!is.na(sex)) %>% 
-  filter(species == "Chinstrap") %>% 
-  group_by(sex) %>% 
-  summarise(avg_bill_length = mean(bill_length_mm, na.rm = TRUE),
-            avg_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
-            avg_flipper_lengt = mean(flipper_length_mm, na.rm = TRUE),
-            avg_weight_g = mean(body_mass_g, na.rm = TRUE))
-
-
-data %>% 
-  ggplot(aes(x = bill_length_mm, y = body_mass_g, colour = species))+
-  geom_point()+
-  ggtitle("Cluster 1")+
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-data %>% 
-  ggplot(aes(x = bill_depth_mm, y = body_mass_g, colour = species))+
-  geom_point()+
-  ggtitle("Cluster 2")+
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-data %>% 
-  ggplot(aes(x = flipper_length_mm, y = body_mass_g, colour = species))+
-  geom_point()+
-  ggtitle("Cluster 3")+
-  theme(plot.title = element_text(hjust = 0.5))
-
-
 
 # Classification of sex with k-nearest neighbour classification algorithm
-
-# Finding optimal values for kNN algorithm
-# Testing accuracy with train set and test set
 # separating training set and testig set with 80/20 separation
 
 set.seed(0911) #reproducibility
@@ -170,8 +82,9 @@ predictions <- knn(train = train_set,
                    k = initial_k)
 
 # calculating accuracy of kNN algorithm
-accuracy_initial_k <- sum(predictions == testset_target) / length(predictions)
-print(accuracy_initial_k)
+accuracy_testing(vector_predictions = predictions,
+                 vector_trueclasses = testset_target)
+
 
 
 #2. Predicting missing values for sex with kNN
@@ -226,7 +139,10 @@ predictions_sex_latent <- knn(train = data_sex_available,
 data$sex[latent_obs_sex] <- predictions_sex_latent
 
 
-
+# exporting data frame as csv. 
+write.csv(data,
+          "/Users/nicoherrig/Desktop/Data Science Projects/Penguin-classification-algorithm/penguins_sex.csv",
+          row.names = FALSE)
 
 
 
