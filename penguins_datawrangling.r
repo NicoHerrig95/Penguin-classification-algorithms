@@ -4,7 +4,6 @@
 
 library(palmerpenguins)
 library(tidyverse)
-library(ggplot2)
 library(class)
 
 
@@ -44,7 +43,8 @@ data_knn <- data %>%
          body_mass_g = normalizer(body_mass_g),
          # transforming character factor into numerics
          species = as.numeric(species), 
-         island = as.numeric(island))
+         island = as.numeric(island),
+         year = as.factor(year)) # year into factor
 
 
 # generating trainset and testset
