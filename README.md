@@ -5,8 +5,8 @@ By now, following algorithms are compared:
 - **Logistic Regression (logit model)**
 - **Random Forest classification algorithm**
 
-
-
+## Data
+The analysed data set ()
 
 
 
