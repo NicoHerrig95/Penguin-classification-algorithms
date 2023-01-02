@@ -19,7 +19,6 @@ data <- penguins %>%
 # Classification of sex with k-nearest neighbour classification algorithm
 # separating training set and testig set with 80/20 separation
 
-set.seed(0911) #reproducibility
 
 # sampling for train set observations (80% of data)
 obs_train <- sample(x = seq(1, nrow(data)),
@@ -46,48 +45,6 @@ data_knn <- data %>%
          island = as.numeric(island),
          year = as.factor(year)) # year into factor
 
-
-# generating trainset and testset
-train_set <- data_knn[obs_train,] %>% 
-  drop_na() #dropping observations where sex is latent
-test_set <- data_knn[obs_test,] %>% 
-  drop_na()
-
-
-# extracting target column (sex)
-trainset_target <- train_set$sex
-testset_target <- test_set$sex
-
-
-# exluding variable sex from train set and test set
-train_set <- train_set %>% 
-  select(- sex)
-
-test_set <- test_set %>% 
-  select(- sex)
-
-
-# Algorithm
-# defining INITIAL k (using sqare root as rule of thumb)
-initial_k <- round(sqrt(dim(train_set)[1]))
-if (initial_k %% 2 == 1) {
-  initial_k = initial_k} else {
-  initial_k = initial_k + 1} # +1 if k is even, as we want odd k
-
-
-# predictions with kNN algorithm
-predictions <- knn(train = train_set,
-                   test = test_set,
-                   cl = trainset_target,
-                   k = initial_k)
-
-# calculating accuracy of kNN algorithm
-accuracy_testing(vector_predictions = predictions,
-                 vector_trueclasses = testset_target)
-
-
-
-#2. Predicting missing values for sex with kNN
 
 
 # observations where sex is latent
