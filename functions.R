@@ -1,4 +1,4 @@
-# sourcing for functions
+# sourcing script for functions
 
 
 # Normalization function

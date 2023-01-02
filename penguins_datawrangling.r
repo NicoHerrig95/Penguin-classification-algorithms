@@ -138,7 +138,7 @@ predictions_sex_latent <- knn(train = data_sex_available,
 # implementing predicted values into initial data set
 data$sex[latent_obs_sex] <- predictions_sex_latent
 
-
+# NOTE: path needs to be altered if function is run! 
 # exporting data frame as csv. 
 write.csv(data,
           "/Users/nicoherrig/Desktop/Data Science Projects/Penguin-classification-algorithm/penguins_sex.csv",

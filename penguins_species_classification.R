@@ -8,6 +8,8 @@ library(ggplot2)
 library(class)
 library(randomForest)
 library(nnet)
+library(car)
+library(effects)
 
 
 # source file for functions
@@ -157,7 +159,7 @@ trainset_knn <- trainset  %>%
          # transforming character factor into numerics
          sex = as.numeric(sex), 
          island = as.numeric(island)) %>% 
-  select(- species)
+  select(- species) # omitting species from set
   
 
 
@@ -169,7 +171,7 @@ testset_knn <- testset %>%
          # transforming character factor into numerics
          sex = as.numeric(sex), 
          island = as.numeric(island)) %>% 
-  select(- species)
+  select(- species) # omitting species from set
 
 
 # calculating k
@@ -185,9 +187,8 @@ predictions_kNN <- knn(train = trainset_knn,
                        cl = trainset_species,
                        k = k)
 
-# storing accuracy in accuracy_kNN
-accuracy_kNN <- accuracy_testing(vector_predictions = predictions_kNN,
-                 vector_trueclasses = testset_species)
+# model assessment
+confusionMatrix(data = predictions_kNN, reference = testset_species)
 
 
 
@@ -196,20 +197,74 @@ accuracy_kNN <- accuracy_testing(vector_predictions = predictions_kNN,
 # categories
 
 
+# defining equation for algorithms
+penguin.equation <- as.formula("species ~ island + bill_length_mm + bill_depth_mm +
+                           flipper_length_mm + body_mass_g + sex + year")
+
+
 # manipulating testset for predictions (omitting species)
 testset_logistic <- testset %>% 
   select(- species)
 
 # training logistic regression model (logit model)
-logit_model1 <- multinom(species ~ island + bill_length_mm + bill_depth_mm +
-                           flipper_length_mm + body_mass_g + sex + year,
+logit_model1 <- multinom(penguin.equation,
                          data = trainset)
 
 # computing predictions using logit model
 predictions_logit <- predict(logit_model1, testset_logistic)
 
-# computing and storing accuracy 
-accuracy_logistic <- accuracy_testing(vector_predictions = predictions_logit,
-                                      vector_trueclasses = testset_species)
+
+# model assessment
+confusionMatrix(data = predictions_logit, reference = testset_species)
+
+
+# 3. random forest
+
+# manipulating testset for random forest
+testset_randomforest <- testset %>% 
+  select(- species)
+
+
+# fitting random forest model
+rf.model <- randomForest(penguin.equation, data = trainset)
+
+# computing predictions
+predictions_randomforest <- predict(rf.model,
+                                    newdata = testset_randomforest)
+
+# calculating accuracy
+# model assessment
+confusionMatrix(data = predictions_randomforest, reference = testset_species)
+
+
+# computing importance of features
+importance(rf.model)
+importance(rf.model, type = 1)
+
+
+
+# Results accuracy
+results_accuracy <- data.frame(algorithm = c("kNN", "logistic regression", "random forest"),
+                               accuracy = c(accuracy_testing(vector_predictions = predictions_kNN,
+                                                             vector_trueclasses = testset_species),
+                                            accuracy_testing(vector_predictions = predictions_logit,
+                                                                           vector_trueclasses = testset_species),
+                                            accuracy_testing(vector_predictions = predictions_randomforest,
+                                                             vector_trueclasses = testset_species)))
+
+
+
+# NOTE: path needs to be altered if function is run! 
+# exporting data frame as csv. 
+write.csv(results_accuracy,
+          "/Users/nicoherrig/Desktop/Data Science Projects/Penguin-classification-algorithm/results_accuracy.csv",
+          row.names = FALSE)
+
+
+
+
+
+
+
 
 

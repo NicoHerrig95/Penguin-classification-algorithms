@@ -1,0 +1,4 @@
+"algorithm","accuracy"
+"kNN",0.72463768115942
+"logistic regression",0.985507246376812
+"random forest",0.985507246376812
