@@ -1,4 +1,4 @@
-# Penguin classification 
+# Penguin classification using ML :penguin:  
 
 ## Within this project I compare the performance of different ML classification algorithms on the palmers penguin data set. The project is on-going and more classifications algorithms will be added.
 
