@@ -2,7 +2,7 @@
 
 ## Within this project I compare the performance of different ML classification algorithms on the palmers penguin data set. 
 
-## State of the project
+## Overview
 
 By now, following algorithms are compared:
 
