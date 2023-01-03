@@ -1,8 +1,8 @@
-# Penguin classification 
+# Penguin classification using ML :penguin:  
 
-## Within this project I compare the performance of different ML classification algorithms on the palmers penguin data set. The project is on-going and more classifications algorithms will be added.
+## Within this project I compare the performance of different ML classification algorithms on the palmers penguin data set. 
 
-## State of the project
+## Overview
 
 By now, following algorithms are compared:
 
@@ -19,7 +19,7 @@ Whats next?:
 
 ## Data
 
-The analysed data set (`penguins`) contains measurements of different penguin species (Adélie, Chinstrap and Gentoo) inf the Palmer Archipelago. The data comes in form of a 344x8 data frame and is part of the `palmerpenguins` library. For further information about the data, please inspect through `?penguins` after installing the `palmerpenguins` library in R.
+The analysed data set (`penguins`) contains measurements of different penguin species (Adélie, Chinstrap and Gentoo) in the Palmer Archipelago. The data comes in form of a 344x8 data frame and is part of the `palmerpenguins` library. For further information about the data, please inspect through `?penguins` after installing the `palmerpenguins` library in R.
 
 ## Code and Scripts
 
