@@ -261,7 +261,8 @@ write.csv(results_accuracy,
           row.names = FALSE)
 
 
-
+# print results
+print(results_accuracy)
 
 
 
