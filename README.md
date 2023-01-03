@@ -29,4 +29,7 @@ The analysed data set (`penguins`) contains measurements of different penguin sp
 
 **penguins_datawrangling.R**: The datawrangling script loads and manipulates the penguin data set and predicts the sex of penguins for several observations where this feature is latent with a kNN algorithm. The script generates the final data set **penguins_sex.csv** which contains 342 observations.
 
-**penguins_species_classification.R**: The main script contains the classification algorithms as well as a basic explanatory data analysis to give an overview about the data set. The trainset / testset split in the script is the default 80/20. Further, the script provides a model assessment for each algorithm through the `confusionMatrix` function. The accuracy values of each algorithm tested is put out as a .csv file **results_accuracy.csv**.
+**penguins_species_classification.R**: The main script contains the classification algorithms as well as a basic explanatory data analysis to give an overview about the data set. The trainset / testset split in the script is the default 80/20. Further, the script provides a model assessment for each algorithm through the `confusionMatrix` function. 
+
+## Results
+The accuracy values of each algorithm can be found in the **results_accuracy.csv**. file.
