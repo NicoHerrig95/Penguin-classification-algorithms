@@ -6,7 +6,7 @@
 
 By now, following algorithms are compared:
 
--   **k-Neares-Neighbours algorithm**
+-   **k-Nearest-Neighbours algorithm**
 
 -   **Logistic Regression (logit model)**
 
